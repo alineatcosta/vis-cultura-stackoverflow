@@ -10,6 +10,7 @@ theme: sandstone
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
+
 theme_set(theme_bw())
 
 knitr::opts_chunk$set(tidy = FALSE,
@@ -115,3 +116,17 @@ dados %>%
 ## Bônus
 
 Inclua o continente dos países (`six_regions`) na visualização.
+
+O continente pode ser incluído na visualização de várias formas, uma delas é como a figura geométrica.
+
+```{r}
+dados %>% 
+    ggplot(aes(y = PDI, 
+               x = comentaram_prop,
+               alpha = Internet,
+               size = usuarios,
+               shape = six_regions))+
+    geom_point(color = "darkblue") +
+    labs(x = "Proporção de pessoa do país que comentaram nas questões", y = "PDI")
+```
+
