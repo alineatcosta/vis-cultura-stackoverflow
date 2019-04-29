@@ -1,5 +1,6 @@
 ---
 title: "Comentários e cultura"
+author: "Aline Costa"
 output:
     html_document:
     df_print: paged
@@ -9,8 +10,6 @@ theme: sandstone
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
-library(viridis)
-source(here::here("code/lib.R"))
 theme_set(theme_bw())
 
 knitr::opts_chunk$set(tidy = FALSE,
@@ -44,11 +43,75 @@ Considerando essa variável, queremos examinar a relação entre ela e o quão h
 
 Faça uma visualização que usa os princípios de eficácia no projeto de visualizações para facilitar as comparações que você acha que são as mais importantes para entendermos esse contexto. 
 
+```{r}
+dados %>% 
+    ggplot(aes(y = PDI, 
+               x = comentaram_prop,
+               alpha = Internet,
+               size = usuarios))+
+    geom_point(color = "darkblue") +
+    labs(x = "Proporção de pessoa do país que comentaram nas questões", y = "PDI")
+```
 ## Outras formas de ver
 
 Em seguida, faça 5 visualizações que usem as mesmas variáveis e também pontos, mas que sejam **menos eficazes** que a que você escolheu acima. 
 
+Visualização menos eficaz 1: Utilizando no eixo x a variável 'internet' que tem valores bem concentrados e com uma calda
+
+```{r}
+dados %>% 
+    ggplot(aes(y = PDI, 
+               x = usuarios,
+               alpha = Internet,
+               size = comentaram_prop))+
+    geom_point(color = "darkblue")
+```
+
+Visualização menos eficaz 2: Utilizando variação de cores
+```{r}
+dados %>% 
+    ggplot(aes(y = PDI, 
+               x = comentaram_prop,
+               alpha = Internet,
+               size = usuarios))+
+    geom_point(aes(colour = factor(Internet)))  +
+    labs(x = "Proporção de pessoa do país que comentaram nas questões", y = "PDI")
+```
+
+Visualização menos eficaz 3: Variando as variaveis do eixo y e do alpha.
+```{r}
+dados %>% 
+    ggplot(aes(y = usuarios, 
+               x = Internet,
+               alpha = comentaram_prop,
+               size = PDI))+
+    geom_point(color = "darkblue") +
+    scale_x_continuous()
+```
+
+Visualização menos eficaz 4: Aplicando logs nos eixos x e y. A visualização fica menos eficaz porque modifica os valores exibidos nos eixos de forma que fica muito difícil acompanhar as informações exibidas.
+```{r}
+dados %>% 
+    ggplot(aes(y = PDI, 
+               x = comentaram_prop,
+               alpha = Internet,
+               size = usuarios))+
+    scale_x_log10() +
+    scale_y_log10() +
+    geom_point(color = "darkblue")  +
+    labs(x = "Proporção de pessoa do país que comentaram nas questões", y = "PDI")
+```
+
+Visualização menos eficaz 4: Modificando a disposição das variáveis na visualização. 
+```{r}
+dados %>% 
+    ggplot(aes(y = Internet, 
+               x = comentaram_prop,
+               alpha = usuarios,
+               size = PDI))+
+    geom_point(color = "darkblue") +
+    labs(x = "Proporção de pessoa do país que comentaram nas questões")
+```
 ## Bônus
 
 Inclua o continente dos países (`six_regions`) na visualização.
-
